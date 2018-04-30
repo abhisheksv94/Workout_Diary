@@ -5,19 +5,14 @@
  */
 
 import React, { Component } from 'react';
-import {
-  Platform,
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
-import {StackNavigator} from 'react-navigation';
+import {Stylesheet,Text,View} from 'react-native';
+import {StackNavigator,DrawerNavigator} from 'react-navigation';
 import Home from './Components/Home';
+import Exercise from './Components/Exercise';
 
 const Navigation=StackNavigator({
-  Home:{
-    screen:Home
-  },
+  Home:{screen:Home},
+  Exercise:{screen:Exercise}
 });
 
 export default class App extends Component {
