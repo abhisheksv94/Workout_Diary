@@ -3,6 +3,7 @@ import {View,Text,TextInput,TouchableHighlight,Button,StyleSheet,FlatList,Scroll
 import Modal from 'react-native-modal';
 import DateSelector from '../Components/DateSelector';
 import DateItem from '../Components/DateItem';
+import ValueItem from '../Components/ValueItem';
 
 //the exercise page showing the workouts of the particular exercise
 export default class Exercise extends Component{
@@ -64,6 +65,7 @@ export default class Exercise extends Component{
                         return(
                             <View style={styles.box}>
                                 <DateItem date={item.title} separators={separators}/>
+                                <ValueItem values={null}/>
                             </View>)}}/>
                 <View style={styles.footer}>
                     <Button title="+" onPress={()=>{this.handleButtonClick()}}/>
@@ -89,14 +91,17 @@ var styles=StyleSheet.create({
         margin:30,
       },
     container: {
+        backgroundColor:"#d8d8d8",
         paddingTop: 10,
         flex: 1,
     },
     box:{
         flex:1,
         margin:20,
-        backgroundColor:'gray',
-        minHeight:100
+        borderRadius:40,
+        backgroundColor:'#dff2f5',
+        minHeight:100,
+        zIndex:100,
     },
     textStyle:{
         fontSize: 15,

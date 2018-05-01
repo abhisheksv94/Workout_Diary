@@ -24,14 +24,19 @@ export default DateItem;
 styles=StyleSheet.create({
     container:{
         flex:1,
+        borderRadius:20,
+        width:150,
+        backgroundColor:'#004c99',
         borderBottomColor:'black',
-        margin:5,
-        alignItems:'center',
+        margin:10,
+        alignSelf:'center',
     },
     
     textStyle:{
+        alignSelf:'center',
+        color:'white',
         fontSize: 15,
-        backgroundColor: 'steelblue',
         fontWeight: 'bold',
+        padding:10
     },
 })
