@@ -2,6 +2,10 @@ import React,{Component} from 'react';
 import Modal from 'react-native-modal';
 import {Text,TextInput,View,Button} from 'react-native';
 
+
+//component to add a new exercise
+//creates a Modal for user input
+//Parent Component: Home
 export default class Dialog extends Component{
     constructor(props){
         super(props);
@@ -9,12 +13,14 @@ export default class Dialog extends Component{
             exercise:null,
         }
     }
+    //function to add the exercise into the parent compoonent
     onSubmit=(exercise)=>{
         this.setState({exercise},()=>{
             this.props.addExercise(this.state.exercise)
         });
     }
 
+    //renders a Modal with textinput for the exercise
     render(){
         return(
             <View style={{flex: 1,

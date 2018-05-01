@@ -1,8 +1,9 @@
 import React,{Component} from 'react';
 import {Button,Text} from 'react-native';
 import {StackNavigator, } from 'react-navigation';
-import Exercise from './Exercise'
+import Exercise from '../Containers/Exercise';
 
+//component to provide navigation to the exercise page
 const NavigationToggle=(props)=>{
     return(
         <Text style={{alignSelf:'center',fontSize:20,fontWeight:'bold',padding:10}}

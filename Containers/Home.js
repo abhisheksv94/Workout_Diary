@@ -1,8 +1,13 @@
 import React,{Component} from 'react';
 import {ScrollView, StyleSheet,View, Text, TextInput, Button} from 'react-native';
-import NavigationToggle from './navigationToggle';
+import NavigationToggle from '../Components/navigationToggle';
 import Dialog from './dialog';
 
+//main screen
+//base screen for the app to traverse through all the exercises
+
+
+//formatting the title
 const Title=()=>{
     return(
         <Text style={{padding:20, fontSize:20, fontWeight:'bold'}}>Home</Text>
@@ -14,6 +19,7 @@ export default class Home extends Component{
         exercises:[],
         isVisible:false,
     }
+    //navigation options for the screen
     static navigationOptions=({navigation})=>{
         const params=navigation.state.params||{};
         return{
@@ -22,6 +28,7 @@ export default class Home extends Component{
         }
     };
     
+    //renders the list of exercises with touch input navigating to the exercise screen
     renderView=()=>{
         let items;
         if(this.state.exercises.length===0){
@@ -40,6 +47,7 @@ export default class Home extends Component{
         }
         return items;
     }
+    //adds the exercise to the exercises array if it is not already present
     addExercise=(exercise)=>{
         let exercises=[...this.state.exercises];
         if(exercise){
@@ -51,6 +59,7 @@ export default class Home extends Component{
             }
         }
     }
+    //renders the page with scrollview header and list of exercises
     render(){
         return(
             <View style={styles.container}>

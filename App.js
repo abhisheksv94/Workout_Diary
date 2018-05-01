@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import {Stylesheet,Text,View} from 'react-native';
 import {StackNavigator,DrawerNavigator} from 'react-navigation';
-import Home from './Components/Home';
-import Exercise from './Components/Exercise';
+import Home from './Containers/Home';
+import Exercise from './Containers/Exercise';
+
+//navigation component
+//point of entry for the application
 
 const Navigation=StackNavigator({
   Home:{screen:Home},

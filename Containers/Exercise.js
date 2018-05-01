@@ -2,7 +2,7 @@ import React,{Component} from 'react';
 import {View,Text,TextInput,TouchableHighlight,Button,StyleSheet,FlatList,} from 'react-native';
 import Modal from 'react-native-modal';
 
-
+//the exercise page showing the workouts of the particular exercise
 export default class Exercise extends Component{
     state={
         data:[{title: 'Title Text', key: 'item1'},
