@@ -7,8 +7,10 @@
     "test": "jest"
   },
   "dependencies": {
+    "eslint": "^4.19.1",
     "react": "16.3.1",
     "react-native": "0.55.3",
+    "react-native-datepicker": "^1.7.2",
     "react-native-modal": "^5.4.0",
     "react-navigation": "^1.5.11"
   },

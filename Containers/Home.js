@@ -1,7 +1,7 @@
 import React,{Component} from 'react';
 import {ScrollView, StyleSheet,View, Text, TextInput, Button} from 'react-native';
 import NavigationToggle from '../Components/navigationToggle';
-import Dialog from './dialog';
+import Dialog from '../Components/dialog';
 
 //main screen
 //base screen for the app to traverse through all the exercises

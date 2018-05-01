@@ -1,12 +1,13 @@
 import React,{Component} from 'react';
-import {View,Text,TextInput,TouchableHighlight,Button,StyleSheet,FlatList,} from 'react-native';
+import {View,Text,TextInput,TouchableHighlight,Button,StyleSheet,FlatList,ScrollView} from 'react-native';
 import Modal from 'react-native-modal';
+import DateSelector from '../Components/DateSelector';
+import DateItem from '../Components/DateItem';
 
 //the exercise page showing the workouts of the particular exercise
 export default class Exercise extends Component{
     state={
-        data:[{title: 'Title Text', key: 'item1'},
-                {title: 'Second Title', key:'item2'}],
+        dates:[],
         isModalVisible:false,
         renderList:false,
     }
@@ -26,42 +27,52 @@ export default class Exercise extends Component{
     handleButtonClick=()=>{
         this.setState({isModalVisible:true});
     }
-    handleSubmit=(text)=>{
-        let data=[...this.state.data];
-        const obj={title:text,key:"item"+data.length};
-        data.push(obj);
-        this.setState({data:data,isModalVisible:false});
+    //sort function for the dates
+    sortDates=(date1,date2)=>{
+        const d1=new Date(date1);
+        const d2=new Date(date2);
+        return (d1-d2)*-1;
     }
-    handleTouch=(title)=>{
-        alert("You clicked on title:\t"+title);
+    handleDateSelected=(date)=>{
+        console.log("***********");
+        console.log(date);
+        console.log("************");
+        if(date!==undefined){
+            let dates=[...this.state.dates];
+            if(dates.indexOf(date)===-1){
+                dates.push(date)
+                dates.sort(this.sortDates);
+                this.setState({isModalVisible:false,dates:dates});
+            }
+        }
     }
-
+    renderListChildren(){
+        const items=this.state.dates.map((date,key)=><Text key={key}>{date}</Text>);
+        return items;
+    }
     render(){
-        
         return(
             <View style={styles.container}>
-                <FlatList  
-                    data={this.state.data}
-                    renderItem={({item, separators}) => (
-                        <TouchableHighlight
-                        onPress={()=> {this.handleTouch(item.title)}}
-                        onShowUnderlay={separators.highlight}
-                        onHideUnderlay={separators.highlight}>
-                        <View style={{backgroundColor: 'white',height:50,borderBottomColor:'black',margin:20}}>
-                            <Text style={styles.textStyle}>{item.title}</Text>
-                        </View>
-                        </TouchableHighlight>
-                    )}
-                    
-                />
+                <FlatList
+                    data={this.state.dates.map((date)=>{
+                        return {
+                            title: date,
+                            key: date,
+                        };
+                    })}
+                    renderItem={({item,separators})=>{
+                        return(
+                            <View style={styles.box}>
+                                <DateItem date={item.title} separators={separators}/>
+                            </View>)}}/>
                 <View style={styles.footer}>
                     <Button title="+" onPress={()=>{this.handleButtonClick()}}/>
                 </View>
                 <Modal isVisible={this.state.isModalVisible}
                     onBackdropPress={()=>{this.setState({isModalVisible:false})}}>
                     <View style={styles.modalStyle}>
-                        <Text style={styles.textStyle}>Enter weight:</Text><TextInput style={styles.textStyle}
-                        onSubmitEditing={(event)=>this.handleSubmit(event.nativeEvent.text)} autoFocus={true}/>
+                        <DateSelector handleDateSelected={this.handleDateSelected}/>
+                        <View></View>
                     </View>
                 </Modal>
             </View>
@@ -80,6 +91,12 @@ var styles=StyleSheet.create({
     container: {
         paddingTop: 10,
         flex: 1,
+    },
+    box:{
+        flex:1,
+        margin:20,
+        backgroundColor:'gray',
+        minHeight:100
     },
     textStyle:{
         fontSize: 15,
