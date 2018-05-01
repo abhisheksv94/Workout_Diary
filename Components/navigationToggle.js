@@ -5,7 +5,7 @@ import Exercise from './Exercise'
 
 const NavigationToggle=(props)=>{
     return(
-        <Text style={{fontSize:20,fontWeight:'bold',padding:10}}
+        <Text style={{alignSelf:'center',fontSize:20,fontWeight:'bold',padding:10}}
         onPress={()=>props.navigation.navigate('Exercise',{
             exerciseName:props.text,
         })}>

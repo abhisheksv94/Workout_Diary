@@ -1,6 +1,7 @@
 import React,{Component} from 'react';
-import {DrawerLayoutAndroid, View, Text, TextInput, Button} from 'react-native';
+import {ScrollView, StyleSheet,View, Text, TextInput, Button} from 'react-native';
 import NavigationToggle from './navigationToggle';
+import Dialog from './dialog';
 
 const Title=()=>{
     return(
@@ -11,37 +12,24 @@ const Title=()=>{
 export default class Home extends Component{
     state={
         exercises:[],
-        exercise:null,
-        drawerOpen:false,
+        isVisible:false,
     }
     static navigationOptions=({navigation})=>{
         const params=navigation.state.params||{};
         return{
             headerTitle:<Title/>,
-            headerLeft:(
-                <Button
-                    onPress={params.drawerlayout}
-                    title="="/>
-            )
+            headerLeft:null
         }
     };
-    componentWillMount=()=>{
-        this.props.navigation.setParams({
-            drawerlayout:this.openDrawerLayout
-        });
-    }
-    openDrawerLayout=()=>{
-        if(this.state.drawerOpen){
-            this.refs.drawerlayout.closeDrawer();
-        }
-        else{
-            this.refs.drawerlayout.openDrawer();
-        }
-    }
+    
     renderView=()=>{
         let items;
         if(this.state.exercises.length===0){
-            items= <Text>No exercises added !</Text>;
+            items= <Text style={{
+                alignSelf:'center',
+                fontSize:15,
+                fontWeight:'bold',
+            }}>No exercises added !</Text>;
         }
         else{
             items=this.state.exercises.map((name,index)=><NavigationToggle
@@ -52,39 +40,56 @@ export default class Home extends Component{
         }
         return items;
     }
-    addExercise=()=>{
+    addExercise=(exercise)=>{
         let exercises=[...this.state.exercises];
-        const exercise=this.state.exercise;
         if(exercise){
             if(exercises.indexOf(exercise)===-1){
                 exercises.push(exercise);
-                this.setState({exercises:exercises,exercise:null},()=>{
-                    this.textInput.clear();
-                    alert("Exercise added!");
+                this.setState({exercises:exercises,isVisible:false},()=>{
+                    console.log("Exercise: "+exercise+" added");
                 });
             }
         }
     }
-    
     render(){
         return(
-            <DrawerLayoutAndroid
-                ref='drawerlayout'
-                drawerWidth={200}
-                drawerPosition={DrawerLayoutAndroid.positions.Left}
-                drawerBackgroundColor='#aaa'
-                onDrawerOpen={()=>this.setState({drawerOpen:true})}
-                onDrawerClose={()=>this.setState({drawerOpen:false})}
-                renderNavigationView={this.renderView}
-            >
-                <View style={{padding:50}}>
-                    <TextInput style={{height:40,width:150}}
-                    ref={input=>this.textInput=input}
-                    placeholder="Enter exercise name"
-                    onSubmitEditing={()=>this.addExercise()}
-                    onChangeText={(exercise)=>this.setState({exercise})}/>
+            <View style={styles.container}>
+                <View>
+                    <Dialog isVisible={this.state.isVisible} addExercise={this.addExercise}
+                        onBackDropPressed={()=>this.setState({isVisible:false})}
+                    />
                 </View>
-            </DrawerLayoutAndroid>
+                <ScrollView style={{
+                    alignSelf:'flex-start',
+                    padding:10,
+                }}>
+                    {this.state.exercises.length>0?
+                    <Text style={{
+                        fontSize:25,
+                        fontWeight:'bold',
+                        fontStyle:'italic',
+                    }}>Exercises: </Text>:null}
+                    {this.renderView()}
+                </ScrollView>
+                <View style={styles.footer}>
+                    <Button title="+"
+                        onPress={()=>this.setState({isVisible:true})}/>
+                </View>
+            </View>
         );
     }
 }
+
+var styles=StyleSheet.create({
+    footer: {
+        alignSelf:'flex-end',
+        bottom:30,
+        height:50,
+        width:40,
+        margin:30,
+      },
+    container: {
+        paddingTop: 10,
+        flex: 1
+    },
+})
