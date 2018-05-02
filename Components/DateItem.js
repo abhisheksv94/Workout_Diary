@@ -12,31 +12,11 @@ const DateItem=(props)=>{
     return(
         <TouchableHighlight
             onPress={()=> {this.handleTouch(props.date)}}>
-            <View style={styles.container}>
-                <Text style={styles.textStyle}>{props.date}</Text>
+            <View style={{backgroundColor:'#004c99',borderRadius:15,padding:10,margin:10}}>
+                <Text style={{fontWeight:'bold',color:'white',fontSize:15}}>{props.date}</Text>
             </View>
         </TouchableHighlight>
     );
 }
 
 export default DateItem;
-
-styles=StyleSheet.create({
-    container:{
-        flex:1,
-        borderRadius:20,
-        width:150,
-        backgroundColor:'#004c99',
-        borderBottomColor:'black',
-        margin:10,
-        alignSelf:'center',
-    },
-    
-    textStyle:{
-        alignSelf:'center',
-        color:'white',
-        fontSize: 15,
-        fontWeight: 'bold',
-        padding:10
-    },
-})

@@ -3,8 +3,10 @@ import {ScrollView, StyleSheet,View, Text, TextInput, Button} from 'react-native
 import NavigationToggle from '../Components/navigationToggle';
 import Dialog from '../Components/dialog';
 
+
 //main screen
 //base screen for the app to traverse through all the exercises
+
 
 
 //formatting the title
@@ -18,6 +20,8 @@ export default class Home extends Component{
     state={
         exercises:[],
         isVisible:false,
+        database:{...this.props.screenProps},
+        db:this.props.screenProps.db
     }
     //navigation options for the screen
     static navigationOptions=({navigation})=>{
@@ -27,7 +31,29 @@ export default class Home extends Component{
             headerLeft:null
         }
     };
-    
+        
+    componentDidMount(){
+        /*this.state.db.transaction(tx=>{
+            tx.executeSql('Insert into '+this.state.database.TableName+' ( '+this.state.database.col1+' , '+this.state.database.col2+' , '+this.state.database.col3+' , '+this.state.database.col4+' ) values ("Bench Press", "Wed May 01 2018", 100, 10);',
+            [],()=>console.log("Inserted"),(error)=>console.log("ERROR!!!!!!!!!!!!!"+error.message));
+        });*/
+        this.state.db.transaction(tx=>{
+            tx.executeSql("Select "+this.state.database.col1+" from "+this.state.database.TableName,[],this.success,this.failure);
+        });
+    }
+    success=(tx,results)=>{
+        const len=results.rows.length;
+        console.log("****************");
+        for(let i=0;i<len;i++){
+            row=results.rows.item(i);
+            console.log(JSON.stringify(row));
+            this.addExercise(row.Exercise);
+        }
+        console.log("****************");
+    }
+    failure=()=>{
+        console.log("***********************ERROR!!!!!!!!!!!!!!!!");
+    }
     //renders the list of exercises with touch input navigating to the exercise screen
     renderView=()=>{
         let items;

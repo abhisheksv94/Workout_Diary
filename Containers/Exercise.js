@@ -25,6 +25,30 @@ export default class Exercise extends Component{
         const exerciseName=params.exerciseName?params.exerciseName:null;
         this.props.navigation.setParams({headerTitle:exerciseName});
     }
+    componentDidMount(){
+        const db=this.props.screenProps.db;
+        const col2=this.props.screenProps.col2;
+        const tablename=this.props.screenProps.TableName;
+        const {params}=this.props.navigation.state;
+        const exerciseName=params.exerciseName;
+        const col1=this.props.screenProps.col1;
+        db.transaction(tx=>{
+            tx.executeSql(
+                'Select '+col2+' from '+tablename+' where '+col1+' = ?',[exerciseName],this.successFn,this.errorFn
+            );
+        })
+    }
+    successFn=(tx,results)=>{
+        console.log("IN SUCCESS");
+        const len=results.rows.length;
+        for(let i=0;i<len;i++){
+            this.handleDateSelected(results.rows.item(i).Date);
+            console.log(JSON.stringify(results.rows.item(i)));
+        }   
+    }
+    errorFn=()=>{
+        console.log("ERROR");
+    }
     handleButtonClick=()=>{
         this.setState({isModalVisible:true});
     }
@@ -52,6 +76,8 @@ export default class Exercise extends Component{
         return items;
     }
     render(){
+        const {params}=this.props.navigation.state;
+        const exerciseName=params.exerciseName?params.exerciseName:null;
         return(
             <View style={styles.container}>
                 <FlatList
@@ -65,7 +91,7 @@ export default class Exercise extends Component{
                         return(
                             <View style={styles.box}>
                                 <DateItem date={item.title} separators={separators}/>
-                                <ValueItem values={null}/>
+                                <ValueItem date={item.title} name={exerciseName} db={this.props.screenProps.db}/>
                             </View>)}}/>
                 <View style={styles.footer}>
                     <Button title="+" onPress={()=>{this.handleButtonClick()}}/>
@@ -97,11 +123,11 @@ var styles=StyleSheet.create({
     },
     box:{
         flex:1,
+        alignItems:'center',
+        backgroundColor:'#dff2f5',
         margin:20,
         borderRadius:40,
-        backgroundColor:'#dff2f5',
         minHeight:100,
-        zIndex:100,
     },
     textStyle:{
         fontSize: 15,
