@@ -34,7 +34,7 @@ export default class Home extends Component{
         
     componentDidMount(){
         /*this.state.db.transaction(tx=>{
-            tx.executeSql('Insert into '+this.state.database.TableName+' ( '+this.state.database.col1+' , '+this.state.database.col2+' , '+this.state.database.col3+' , '+this.state.database.col4+' ) values ("Bench Press", "Wed May 01 2018", 100, 10);',
+            tx.executeSql('Insert into '+this.state.database.TableName+' ( '+this.state.database.col1+' , '+this.state.database.col2+' , '+this.state.database.col3+' , '+this.state.database.col4+' ) values ("Bench Press", "Tue May 01 2018", 100, 10);',
             [],()=>console.log("Inserted"),(error)=>console.log("ERROR!!!!!!!!!!!!!"+error.message));
         });*/
         this.state.db.transaction(tx=>{
